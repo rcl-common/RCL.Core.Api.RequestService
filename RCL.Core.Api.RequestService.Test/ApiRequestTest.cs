@@ -1,7 +1,5 @@
 ﻿#nullable disable
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using RCL.Core.Authorization;
 
 namespace RCL.Core.Api.RequestService.Test
@@ -10,7 +8,6 @@ namespace RCL.Core.Api.RequestService.Test
     public class ApiRequestTest
     {
         private readonly IAuthTokenService _authTokenService;
-        private readonly IOptions<ApiOptions> _apiOptions;
 
         private readonly DemoService _demoService;
 
@@ -19,10 +16,7 @@ namespace RCL.Core.Api.RequestService.Test
             _authTokenService = (IAuthTokenService)DependencyResolver
                 .ServiceProvider().GetService(typeof(IAuthTokenService));
 
-            _apiOptions = (IOptions<ApiOptions>)DependencyResolver
-                .ServiceProvider().GetService<IOptions<ApiOptions>>();
-
-            _demoService = new DemoService(_authTokenService, _apiOptions);
+            _demoService = new DemoService(_authTokenService);
         }
 
         [TestMethod]
@@ -43,16 +37,18 @@ namespace RCL.Core.Api.RequestService.Test
 
     public class DemoService : ApiRequestBase
     {
-        public DemoService(IAuthTokenService authTokenService, 
-            IOptions<ApiOptions> options) : base(authTokenService, options)
+        private const string _apiEndpoint = "https://my-api-endpoint.com";
+        private const string _resource = "111111111";
+
+        public DemoService(IAuthTokenService authTokenService) : base(authTokenService)
         {
         }
 
         public async Task<List<Booking>> GetUserBookings(string userId)
         {
-            string uri = $"v1/demo/booking/userid/{userId}/getall";
+            string uri = $"{_apiEndpoint}/v1/demo/booking/userid/{userId}/getall";
 
-            List<Booking> bookings = await GetListResultAsync<Booking>(uri);
+            List<Booking> bookings = await GetListResultAsync<Booking>(uri,_resource);
 
             return bookings;
         }

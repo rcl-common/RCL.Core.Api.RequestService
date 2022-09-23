@@ -1,6 +1,5 @@
 ﻿# nullable disable
 
-using Microsoft.Extensions.Options;
 using RCL.Core.Authorization;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,7 +10,6 @@ namespace RCL.Core.Api.RequestService
     public abstract class ApiRequestBase
     {
         private readonly IAuthTokenService _authTokenService;
-        private readonly IOptions<ApiOptions> _options;
         private static readonly HttpClient _client;
 
         private string _accessToken = string.Empty;
@@ -21,21 +19,19 @@ namespace RCL.Core.Api.RequestService
             _client = new HttpClient();
         }
 
-        public ApiRequestBase(IAuthTokenService authTokenService,
-            IOptions<ApiOptions> options)
+        public ApiRequestBase(IAuthTokenService authTokenService)
         {
             _authTokenService = authTokenService;
-            _options = options;
         }
 
-        public async Task<TResult> GetAsync<TResult>(string uri)
+        public async Task<TResult> GetAsync<TResult>(string uri, string resource)
             where TResult : new()
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.GetAsync($"{_options.Value.ApiEndpoint}/{uri}");
+                var response = await _client.GetAsync(uri);
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
 
                 if (response.IsSuccessStatusCode)
@@ -61,14 +57,14 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task<List<TResult>> GetListResultAsync<TResult>(string uri)
+        public async Task<List<TResult>> GetListResultAsync<TResult>(string uri, string resource)
             where TResult : class
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.GetAsync($"{_options.Value.ApiEndpoint}/{uri}");
+                var response = await _client.GetAsync(uri);
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
 
                 if (response.IsSuccessStatusCode)
@@ -94,14 +90,14 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task PostAsync<T>(string uri, T payload)
+        public async Task PostAsync<T>(string uri, string resource, T payload)
             where T : class
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.PostAsync($"{_options.Value.ApiEndpoint}/{uri}",
+                var response = await _client.PostAsync(uri,
                      new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"));
 
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
@@ -117,15 +113,15 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task<TResult> PostAsync<T, TResult>(string uri, T payload)
+        public async Task<TResult> PostAsync<T, TResult>(string uri, string resource, T payload)
             where TResult : new()
             where T : class
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.PostAsync($"{_options.Value.ApiEndpoint}/{uri}",
+                var response = await _client.PostAsync(uri,
                      new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"));
 
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
@@ -146,15 +142,15 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task<TResult> PutAsync<T, TResult>(string uri, T payload)
+        public async Task<TResult> PutAsync<T, TResult>(string uri, string resource, T payload)
            where TResult : new()
            where T : class
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.PutAsync($"{_options.Value.ApiEndpoint}/{uri}",
+                var response = await _client.PutAsync(uri,
                      new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"));
 
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
@@ -175,15 +171,15 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task<List<TResult>> PostListResultAsync<T, TResult>(string uri, T payload)
+        public async Task<List<TResult>> PostListResultAsync<T, TResult>(string uri, string resource, T payload)
           where TResult : class
           where T : class
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.PostAsync($"{_options.Value.ApiEndpoint}/{uri}",
+                var response = await _client.PostAsync(uri,
                      new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"));
 
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
@@ -204,13 +200,13 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        public async Task DeleteAsync(string uri)
+        public async Task DeleteAsync(string uri, string resource)
         {
             try
             {
-                await SetRequestHeadersAsync();
+                await SetRequestHeadersAsync(resource);
 
-                var response = await _client.DeleteAsync($"{_options.Value.ApiEndpoint}/{uri}");
+                var response = await _client.DeleteAsync(uri);
 
                 string content = ResolveContent(await response.Content.ReadAsStringAsync());
 
@@ -225,9 +221,9 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        private async Task SetRequestHeadersAsync()
+        private async Task SetRequestHeadersAsync(string resource)
         {
-            string accessToken = await GetAccessTokenAsync();
+            string accessToken = await GetAccessTokenAsync(resource);
 
             _client.DefaultRequestHeaders.Clear();
 
@@ -237,13 +233,13 @@ namespace RCL.Core.Api.RequestService
             }
         }
 
-        private async Task<string> GetAccessTokenAsync()
+        private async Task<string> GetAccessTokenAsync(string resource)
         {
             try
             {
                 if (_accessToken == string.Empty)
                 {
-                    AuthToken authToken = await _authTokenService.GetAuthTokenAsync(_options.Value.Resource);
+                    AuthToken authToken = await _authTokenService.GetAuthTokenAsync(resource);
                     _accessToken = authToken.access_token;
                 }
 

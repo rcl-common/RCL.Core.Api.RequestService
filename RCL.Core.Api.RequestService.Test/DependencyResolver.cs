@@ -13,7 +13,6 @@ namespace RCL.Core.Api.RequestService.Test
 
             IServiceCollection services = new ServiceCollection();
             services.AddRCLCoreAuthTokenServices(options => Configuration.Bind("Auth", options));
-            services.AddRCLCoreApiRequestServices(options => Configuration.Bind("Api",options));
             
             return services.BuildServiceProvider();
         }
