@@ -8,7 +8,7 @@
 		<Version>7.0.0</Version>
 		<Authors>Anil Ripla</Authors>
 		<Company>Ray Consulting Limited</Company>
-		<Description>A library to make authorized requests to RCL REST APIs</Description>
+		<Description>A library to make authorized requests to REST APIs</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/rcl-common/RCL.Core.Api.RequestService</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/rcl-common/RCL.Core.Api.RequestService</RepositoryUrl>
