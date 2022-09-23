@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RCL.Core.Api.RequestService", "RCL.Core.Api.RequestService.Core\RCL.Core.Api.RequestService.csproj", "{184F57A9-7FA4-4777-A815-625E5318FAE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCL.Core.Api.RequestService.Test", "RCL.Core.Api.RequestService.Test\RCL.Core.Api.RequestService.Test.csproj", "{A3FFB4A4-07C9-44DB-8638-EACC82E146A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{184F57A9-7FA4-4777-A815-625E5318FAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184F57A9-7FA4-4777-A815-625E5318FAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184F57A9-7FA4-4777-A815-625E5318FAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FFB4A4-07C9-44DB-8638-EACC82E146A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FFB4A4-07C9-44DB-8638-EACC82E146A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FFB4A4-07C9-44DB-8638-EACC82E146A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FFB4A4-07C9-44DB-8638-EACC82E146A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

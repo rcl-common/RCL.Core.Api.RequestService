@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RCL.Api.RequestService.Test
+namespace RCL.Core.Api.RequestService.Test
 {
     public static class DependencyResolver
     {
@@ -12,8 +12,8 @@ namespace RCL.Api.RequestService.Test
             IConfiguration Configuration = builder.Build();
 
             IServiceCollection services = new ServiceCollection();
-            services.AddAuthTokenService(options => Configuration.Bind("Auth", options));
-            services.AddApiRequestServices(options => Configuration.Bind("Api",options));
+            services.AddRCLCoreAuthTokenServices(options => Configuration.Bind("Auth", options));
+            services.AddRCLCoreApiRequestServices(options => Configuration.Bind("Api",options));
             
             return services.BuildServiceProvider();
         }

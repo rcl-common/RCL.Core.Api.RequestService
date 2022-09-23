@@ -1,31 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
-    <IsPackable>false</IsPackable>
+		<IsPackable>false</IsPackable>
 
-    <UserSecretsId>255f292a-3033-4387-b02d-2e92f84debca</UserSecretsId>
-  </PropertyGroup>
+		<UserSecretsId>08c35e76-6a00-4b33-8a27-c9cf030732b7</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
-    <PackageReference Include="coverlet.collector" Version="3.1.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+		<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+		<PackageReference Include="coverlet.collector" Version="3.1.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RCL.Api.RequestService.Core\RCL.Api.RequestService.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\RCL.Core.Api.RequestService.Core\RCL.Core.Api.RequestService.csproj" />
+	</ItemGroup>
 
 </Project>
